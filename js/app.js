@@ -1,5 +1,6 @@
 // Default values
 let playerStartGrid = { row:5, column:2 };
+let level = document.getElementById('level');
 
 // Enemies our player must avoid
 
@@ -33,6 +34,7 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 class Player {
     constructor (grid) {
+        this.timeInWater = 0;
         this.grid = grid;
         this.position = gridToPosition(grid);
         this.sprite = 'images/char-princess-girl.png';
@@ -41,6 +43,14 @@ class Player {
 // This class requires an update(), render() and
 // a handleInput() method.
 Player.prototype.update = function() {
+    if (player.grid.row === 0) {
+        player.timeInWater++;
+        if (player.timeInWater > 10) {
+            player.grid = {row:5,column:2};
+            player.position = gridToPosition(player.grid);
+            player.timeInWater = 0;
+        }
+    }
 };
 
 //Render method
@@ -51,24 +61,26 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.handleInput = function(key) {
-    switch(key) {
-        case 'left':
-            player.grid.column--;
-            player.position = gridToPosition(player.grid);
-            break;
-        case 'right':
-            player.grid.column++;
-            player.position = gridToPosition(player.grid);
-            break;
-        case 'up':
-            player.grid.row--;
-            player.position = gridToPosition(player.grid);
-            break;
-        case 'down':
-            player.grid.row++;
-            player.position = gridToPosition(player.grid);
-            break;
-      }
+    if (player.timeInWater == 0) {
+        switch(key) {
+            case 'left':
+                player.grid.column--;
+                player.position = gridToPosition(player.grid);
+                break;
+            case 'right':
+                player.grid.column++;
+                player.position = gridToPosition(player.grid);
+                break;
+            case 'up':
+                player.grid.row--;
+                player.position = gridToPosition(player.grid);
+                break;
+            case 'down':
+                player.grid.row++;
+                player.position = gridToPosition(player.grid);
+                break;
+        }
+    }
 }
 
 // Now instantiate your objects.
