@@ -1,6 +1,7 @@
 // Default values
 let playerStartGrid = { row:5, column:2 };
-let level = document.getElementById('level');
+let levelElement = document.getElementById('level');
+let level = 1;
 
 // Enemies our player must avoid
 
@@ -47,8 +48,16 @@ Player.prototype.update = function() {
         player.timeInWater++;
         if (player.timeInWater > 10) {
             player.grid = {row:5,column:2};
+            level += 1;
+            levelElement.innerText = level;
             player.position = gridToPosition(player.grid);
             player.timeInWater = 0;
+
+            let numEnemies = allEnemies.length;
+            for (i=0; i < numEnemies; i++) {
+                let enemy = allEnemies[i];
+                enemy.speed += 30;
+            }
         }
     }
 };
