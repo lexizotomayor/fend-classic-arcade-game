@@ -1,3 +1,12 @@
 body {
     text-align: center;
+    padding-top: 3vh;
+    background: blanchedalmond;
+    
+}
+
+h1 {
+    font: 3.5em 'Baloo', sans-serif;
+    text-shadow: 1px 1px 1px rgb(58, 55, 55);
+    color: tomato;
 }
