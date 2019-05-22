@@ -64,11 +64,11 @@ Player.prototype.handleInput = function(key) {
     if (player.timeInWater == 0) {
         switch(key) {
             case 'left':
-                player.grid.column--;
+                player.grid.column = Math.max(0,player.grid.column - 1);
                 player.position = gridToPosition(player.grid);
                 break;
             case 'right':
-                player.grid.column++;
+                player.grid.column = Math.min(4,player.grid.column +1);
                 player.position = gridToPosition(player.grid);
                 break;
             case 'up':
@@ -76,7 +76,7 @@ Player.prototype.handleInput = function(key) {
                 player.position = gridToPosition(player.grid);
                 break;
             case 'down':
-                player.grid.row++;
+                player.grid.row = Math.min(5,player.grid.row + 1);
                 player.position = gridToPosition(player.grid);
                 break;
         }
