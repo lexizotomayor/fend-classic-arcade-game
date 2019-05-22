@@ -1,5 +1,5 @@
 // Default values
-let playerStartGrid = {row:5,column:2};
+let playerStartGrid = { row:5, column:2 };
 
 // Enemies our player must avoid
 
@@ -50,13 +50,33 @@ Player.prototype.render = function() {
                   this.position.y);
 };
 
+Player.prototype.handleInput = function(key) {
+    switch(key) {
+        case 'left':
+            player.grid.column--;
+            player.position = gridToPosition(player.grid);
+            break;
+        case 'right':
+            player.grid.column++;
+            player.position = gridToPosition(player.grid);
+            break;
+        case 'up':
+            player.grid.row--;
+            player.position = gridToPosition(player.grid);
+            break;
+        case 'down':
+            player.grid.row++;
+            player.position = gridToPosition(player.grid);
+            break;
+      }
+}
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 let allEnemies = [];
 allEnemies.push(new Enemy({row:3,column:-1}, 50 + Math.random() * 150));
-//allEnemies.push(new Enemy({row:2,column:-1}, 50 + Math.random() * 200));
-//allEnemies.push(new Enemy({row:1,column:-1}, Math.random() * 200));
-console.log(allEnemies[0]);
+allEnemies.push(new Enemy({row:2,column:-1}, 50 + Math.random() * 200));
+allEnemies.push(new Enemy({row:1,column:-1}, Math.random() * 200));
 // Place the player object in a variable called player
 const player = new Player(playerStartGrid);
 
@@ -103,8 +123,8 @@ function checkCollisions() {
         //if true, there's been a collision
         if (enemyGrid.row == player.grid.row &&
             enemyGrid.column == player.grid.column) {
-            player.grid = playerStartGrid;
-            player.position = gridToPosition(playerStartGrid);
+            player.grid = {row:5,column:2};
+            player.position = gridToPosition(player.grid);
         }
     }
 }
