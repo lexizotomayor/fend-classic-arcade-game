@@ -25,7 +25,7 @@ p {
     color: slategrey;
 }
 
-button {
+#button {
     height: 30px;
     padding: 10px;
     line-height: 10px;

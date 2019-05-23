@@ -96,6 +96,7 @@ Player.prototype.handleInput = function(key) {
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
+// Set speed
 let allEnemies = [];
 allEnemies.push(new Enemy({row:3,column:-1}, 50 + (Math.random() * 150)));
 allEnemies.push(new Enemy({row:2,column:-1}, 50 + Math.random() * 200));
@@ -162,5 +163,9 @@ function reset() {
     levelElement.innerText = level;
     lives = 5;
     livesElement.innerText = lives;
+    allEnemies = [];
+    allEnemies.push(new Enemy({row:3,column:-1}, 50 + (Math.random() * 150)));
+    allEnemies.push(new Enemy({row:2,column:-1}, 50 + Math.random() * 200));
+    allEnemies.push(new Enemy({row:1,column:-1}, 50 + Math.random() * 200));
 }
-
+// RESTART
