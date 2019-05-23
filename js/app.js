@@ -2,6 +2,8 @@
 let playerStartGrid = { row:5, column:2 };
 let levelElement = document.getElementById('level');
 let level = 1;
+let livesElement = document.getElementById('lives');
+let lives = 5;
 
 // Enemies our player must avoid
 
@@ -52,7 +54,7 @@ Player.prototype.update = function() {
             levelElement.innerText = level;
             player.position = gridToPosition(player.grid);
             player.timeInWater = 0;
-
+            //Accelerates speed after every level
             let numEnemies = allEnemies.length;
             for (i=0; i < numEnemies; i++) {
                 let enemy = allEnemies[i];
@@ -95,9 +97,9 @@ Player.prototype.handleInput = function(key) {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 let allEnemies = [];
-allEnemies.push(new Enemy({row:3,column:-1}, 50 + Math.random() * 150));
+allEnemies.push(new Enemy({row:3,column:-1}, 50 + (Math.random() * 150)));
 allEnemies.push(new Enemy({row:2,column:-1}, 50 + Math.random() * 200));
-allEnemies.push(new Enemy({row:1,column:-1}, Math.random() * 200));
+allEnemies.push(new Enemy({row:1,column:-1}, 50 + Math.random() * 200));
 // Place the player object in a variable called player
 const player = new Player(playerStartGrid);
 
@@ -116,7 +118,7 @@ document.addEventListener('keyup', function(e) {
 
 /**
  * Converts a pixel position to a grid position .
- * @param {*} position 
+ * @param {*} position
  */
 function positionToGrid(position) {
     return { row:    Math.round((position.y + 15) / 80),
@@ -125,7 +127,7 @@ function positionToGrid(position) {
 
 /**
  * Converts a grid position to a pixel position.
- * @param {*} grid 
+ * @param {*} grid
  */
 function gridToPosition(grid) {
     return {x:grid.column * 100,
@@ -146,6 +148,19 @@ function checkCollisions() {
             enemyGrid.column == player.grid.column) {
             player.grid = {row:5,column:2};
             player.position = gridToPosition(player.grid);
+            lives--;
+            livesElement.innerText = lives;
+            if (lives === 0) {
+                reset();
+            }
         }
     }
 }
+
+function reset() {
+    level = 1;
+    levelElement.innerText = level;
+    lives = 5;
+    livesElement.innerText = lives;
+}
+
