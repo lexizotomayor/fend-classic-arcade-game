@@ -6,21 +6,17 @@ let livesElement = document.getElementById('lives');
 let lives = 5;
 
 // Enemies our player must avoid
-
 class Enemy {
     constructor(grid, speed) {
-        this.position = gridToPosition(grid);
-        this.speed = speed;
-        this.sprite = 'images/enemy-bug.png';
+        this.position = gridToPosition(grid); //Position is the enemy's pixel coordinates from the top left
+        this.speed = speed; //Number of pixels enemy moves per frame
+        this.sprite = 'images/enemy-bug.png'; //Enemy's picture
     }
 }
 
 // Update the enemy's position. required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
     this.position.x += this.speed * dt;
     if (this.position.x > 502) {
         this.position.x = -100;
@@ -37,18 +33,18 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 class Player {
     constructor (grid) {
-        this.timeInWater = 0;
-        this.grid = grid;
-        this.position = gridToPosition(grid);
-        this.sprite = 'images/char-princess-girl.png';
+        this.timeInWater = 0; //The number of frames or ticks spent in water
+        this.grid = grid; //Position of the player in the grid
+        this.position = gridToPosition(grid); //Position is the player's pixel coordinates from the top left
+        this.sprite = 'images/char-princess-girl.png'; //Player's picture
     }
 }
 // This class requires an update(), render() and
 // a handleInput() method.
 Player.prototype.update = function() {
-    if (player.grid.row === 0) {
+    if (player.grid.row === 0) {  //If the player is in the water
         player.timeInWater++;
-        if (player.timeInWater > 10) {
+        if (player.timeInWater > 10) { //After 10 frames in water, level increases
             player.grid = {row:5,column:2};
             level += 1;
             levelElement.innerText = level;
@@ -59,6 +55,10 @@ Player.prototype.update = function() {
             for (i=0; i < numEnemies; i++) {
                 let enemy = allEnemies[i];
                 enemy.speed += 30;
+            }
+            if (level === 10) { //When player has reached the water 10 times, he or she wins
+                alert('You won!');
+                reset();
             }
         }
     }
@@ -79,7 +79,7 @@ Player.prototype.handleInput = function(key) {
                 player.position = gridToPosition(player.grid);
                 break;
             case 'right':
-                player.grid.column = Math.min(4,player.grid.column +1);
+                player.grid.column = Math.min(4,player.grid.column + 1);
                 player.position = gridToPosition(player.grid);
                 break;
             case 'up':
@@ -94,15 +94,17 @@ Player.prototype.handleInput = function(key) {
     }
 }
 
-// Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
-// Set speed
+/**
+ * Speed is set to a number between 50 and 250
+ */
 let allEnemies = [];
-allEnemies.push(new Enemy({row:3,column:-1}, 50 + (Math.random() * 150)));
+allEnemies.push(new Enemy({row:3,column:-1}, 50 + (Math.random() * 200)));
 allEnemies.push(new Enemy({row:2,column:-1}, 50 + Math.random() * 200));
 allEnemies.push(new Enemy({row:1,column:-1}, 50 + Math.random() * 200));
 // Place the player object in a variable called player
 const player = new Player(playerStartGrid);
+alert('Try to reach the water 10 times to win the game! Good luck!');
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -167,5 +169,7 @@ function reset() {
     allEnemies.push(new Enemy({row:3,column:-1}, 50 + (Math.random() * 150)));
     allEnemies.push(new Enemy({row:2,column:-1}, 50 + Math.random() * 200));
     allEnemies.push(new Enemy({row:1,column:-1}, 50 + Math.random() * 200));
+    player.grid.row = 5;
+    player.grid.column = 2;
+    player.position = gridToPosition(player.grid);
 }
-// RESTART
